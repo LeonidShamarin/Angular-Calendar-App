@@ -1,7 +1,5 @@
 # Angular Calendar App
 
-## Project Description
-
 Angular Calendar App is a web application developed using the Angular framework that allows users to conveniently manage their events and meetings. The app provides an intuitive interface for viewing, adding, editing, and deleting events in a calendar.
 
 ## Features
