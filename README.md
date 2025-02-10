@@ -1,11 +1,24 @@
-# Simple Calendar Application
+# Angular Calendar App
 
-This is a simple calendar application that allows users to add and delete calendar appointments. The application uses the JavaScript `Date` object to work with time and dates.
+## Project Description
+
+Angular Calendar App is a web application developed using the Angular framework that allows users to conveniently manage their events and meetings. The app provides an intuitive interface for viewing, adding, editing, and deleting events in a calendar.
 
 ## Features
 
-1. Form to add a calendar appointment
-2. Ability to delete the appointment
+- **Calendar View**: Users can view events in different formats (day, week, month).
+- **Add Events**: Easily add new events with the ability to specify date, time, description, and other details.
+- **Edit Events**: Users can edit existing events by changing their details.
+- **Delete Events**: Ability to remove events from the calendar.
+- **Event Filtering**: Users can filter events by categories or dates.
+
+## Technologies
+
+- **Angular**: The main framework for building single-page applications.
+- **TypeScript**: The programming language used for writing Angular code.
+- **HTML/CSS**: For structuring and styling the interface.
+- **RxJS**: For handling asynchronous data and events.
+- **Bootstrap**: For quick and convenient interface design.
 
 ## Live Demo
 
