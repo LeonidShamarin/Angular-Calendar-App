@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
   standalone: true,
   imports: [MatButtonModule, MatCardModule],
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent {
   constructor(private router: Router) {}

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -49,10 +49,10 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   ];
 
   constructor(
-    private formService: FormService, // Використовуємо FormService
+    private formService: FormService, 
     private appointmentService: AppointmentService
   ) {
-    this.appointmentForm = this.formService.createAppointmentForm(); // Створюємо форму через сервіс
+    this.appointmentForm = this.formService.createAppointmentForm(); 
   }
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['appointment'] && this.appointment) {
       this.isEditMode = true;
-      this.formService.patchFormValue(this.appointmentForm, this.appointment); // Патчимо значення через сервіс
+      this.formService.patchFormValue(this.appointmentForm, this.appointment); 
     } else if (changes['selectedDate'] && !this.isEditMode) {
       this.appointmentForm.get('date')?.setValue(this.selectedDate);
     }
@@ -108,7 +108,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   }
 
   validateTime(): void {
-    this.formService.validateTime(this.appointmentForm); // Валідація часу через сервіс
+    this.formService.validateTime(this.appointmentForm); 
   }
 
 }

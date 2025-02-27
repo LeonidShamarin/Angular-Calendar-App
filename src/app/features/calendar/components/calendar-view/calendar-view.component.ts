@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-// import { Subject, takeUntil } from 'rxjs';
 import { AppointmentService } from '../../../../core/services/appointment.service';
 import { Appointment } from '../../../../core/models/appointment.model';
-// import { AppointmentFormComponent } from '../appointment-form/appointment-form.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';

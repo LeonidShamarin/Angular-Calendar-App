@@ -5,9 +5,9 @@ import { CalendarViewComponent } from '../../components/calendar-view/calendar-v
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Appointment } from './../../../../core/models/appointment.model';
-import { NgIf } from '@angular/common'; // Import NgIf for *ngIf
+import { NgIf } from '@angular/common'; 
 import { AppointmentFormComponent } from '../../components/appointment-form/appointment-form.component';
- // Import AppointmentFormComponent
+
 
 @Component({
   selector: 'app-calendar-page',
@@ -16,8 +16,8 @@ import { AppointmentFormComponent } from '../../components/appointment-form/appo
     CalendarViewComponent,
     MatButtonModule,
     MatIconModule,
-    NgIf, // Add NgIf here
-    AppointmentFormComponent // Add AppointmentFormComponent here
+    NgIf, 
+    AppointmentFormComponent 
   ],
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.scss']
@@ -46,7 +46,7 @@ export class CalendarPageComponent {
 
   openAppointmentForm(): void {
     this.showAppointmentForm = true;
-    this.selectedAppointment = null; // Очищуємо вибраний запис перед створенням нового
+    this.selectedAppointment = null; 
   }
 
   changeMonth(increment: number): void {
