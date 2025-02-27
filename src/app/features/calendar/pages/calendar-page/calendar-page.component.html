@@ -1,0 +1,17 @@
+<div class="calendar-page">
+  <div class="calendar-actions">
+    <button mat-raised-button color="primary" (click)="openAppointmentForm()">
+      <mat-icon>add</mat-icon> New Appointment
+    </button>
+  </div>
+
+  <app-calendar-view class="calendar-view"></app-calendar-view>
+
+  <app-appointment-form
+    *ngIf="showAppointmentForm"
+    [appointment]="selectedAppointment"
+    [selectedDate]="currentDate"
+    (formClosed)="showAppointmentForm = false"
+  >
+  </app-appointment-form>
+</div>

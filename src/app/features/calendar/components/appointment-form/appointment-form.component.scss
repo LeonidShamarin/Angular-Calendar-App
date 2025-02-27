@@ -1,0 +1,54 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.time-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.time-field {
+  flex: 1;
+}
+
+.color-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-preview {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+mat-card {
+  padding: 16px;
+}
+
+mat-card-header {
+  margin-bottom: 16px;
+}
+
+mat-card-actions {
+  padding: 0;
+  margin-top: 16px;
+}
+
+.appointment-card {
+  max-width: 600px; /* Задайте бажану максимальну ширину */
+  width: 100%; /* Забезпечує адаптивність */
+  margin: 0 auto; /* Центрує картку по горизонталі */
+  padding: 16px; /* Додайте відступи всередині картки */
+}
+
+/* Додаткові стилі для адаптивності */
+@media (max-width: 768px) {
+  .appointment-card {
+    max-width: 90%; /* На малих екранах зменшуємо ширину */
+  }
+}

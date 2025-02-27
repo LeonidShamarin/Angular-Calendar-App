@@ -1,0 +1,17 @@
+.calendar-page {
+  padding: 24px;
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-actions {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.calendar-view {
+  flex: 1;
+  overflow: hidden;
+}

@@ -1,0 +1,90 @@
+<mat-card class="appointment-card"> 
+  <mat-card-header>
+    <mat-card-title>{{ isEditMode ? 'Edit Appointment' : 'Add New Appointment' }}</mat-card-title>
+  </mat-card-header>
+  
+  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()">
+    <mat-card-content > 
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" placeholder="Appointment title">
+        <mat-error *ngIf="appointmentForm.get('title')?.hasError('required')">
+          Title is required
+        </mat-error>
+        <mat-error *ngIf="appointmentForm.get('title')?.hasError('maxlength')">
+          Title cannot exceed 50 characters
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Optional description" rows="3"></textarea>
+        <mat-error *ngIf="appointmentForm.get('description')?.hasError('maxlength')">
+          Description cannot exceed 200 characters
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="appointmentForm.get('date')?.hasError('required')">
+          Date is required
+        </mat-error>
+      </mat-form-field>
+      
+      <div class="time-container">
+        <mat-form-field appearance="outline" class="time-field">
+          <mat-label>Start Time</mat-label>
+          <input matInput type="time" formControlName="startTime" (change)="timeValidator()">
+          <mat-error *ngIf="appointmentForm.get('startTime')?.hasError('required')">
+            Start time is required
+          </mat-error>
+          <mat-error *ngIf="appointmentForm.get('startTime')?.hasError('pattern')">
+            Invalid time format
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="time-field">
+          <mat-label>End Time</mat-label>
+          <input matInput type="time" formControlName="endTime" (change)="timeValidator()">
+          <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('required')">
+            End time is required
+          </mat-error>
+          <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('pattern')">
+            Invalid time format
+          </mat-error>
+          <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('endBeforeStart')">
+            End time must be after start time
+          </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Color</mat-label>
+        <mat-select formControlName="color">
+          <mat-select-trigger>
+            <div class="color-option">
+              <div class="color-preview" [style.background-color]="appointmentForm.get('color')?.value"></div>
+              <span>{{ selectedColorName }}</span>
+            </div>
+          </mat-select-trigger>
+          <mat-option *ngFor="let color of colorOptions" [value]="color.value">
+            <div class="color-option">
+              <div class="color-preview" [style.background-color]="color.value"></div>
+              <span>{{ color.name }}</span>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+    
+    <mat-card-actions align="end">
+      <button type="button" mat-button (click)="onCancel()">Cancel</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="appointmentForm.invalid">
+        {{ isEditMode ? 'Update' : 'Create' }}
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
