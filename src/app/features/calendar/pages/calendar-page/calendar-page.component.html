@@ -5,7 +5,10 @@
     </button>
   </div>
 
-  <app-calendar-view class="calendar-view"></app-calendar-view>
+  <app-calendar-view
+    class="calendar-view"
+    (appointmentSelected)="onAppointmentSelected($event)"
+  ></app-calendar-view>
 
   <app-appointment-form
     *ngIf="showAppointmentForm"
@@ -14,4 +17,10 @@
     (formClosed)="showAppointmentForm = false"
   >
   </app-appointment-form>
+
+  <app-appointment-form
+    *ngIf="selectedAppointment"
+    [appointment]="selectedAppointment"
+    (formClosed)="onFormClosed()"
+  ></app-appointment-form>
 </div>

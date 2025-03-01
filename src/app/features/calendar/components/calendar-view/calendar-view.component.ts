@@ -116,7 +116,10 @@ export class CalendarViewComponent implements OnInit, OnChanges {
     event.stopPropagation();
     this.appointmentSelected.emit(appointment);
   }
-
+  editAppointment(appointment: Appointment, event: MouseEvent): void {
+    event.stopPropagation();
+    this.appointmentSelected.emit(appointment);
+  }
   deleteAppointment(appointment: Appointment, event: MouseEvent): void {
     event.stopPropagation();
     

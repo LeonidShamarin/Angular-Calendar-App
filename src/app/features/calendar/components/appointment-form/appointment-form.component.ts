@@ -74,7 +74,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     if (this.appointmentForm.invalid) {
       return;
     }
-
+  
     const formValue = this.appointmentForm.value;
     const appointmentData: Appointment = {
       id: this.isEditMode && this.appointment ? this.appointment.id : uuidv4(),
@@ -85,13 +85,13 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
       endTime: formValue.endTime,
       color: formValue.color,
     };
-
+  
     if (this.isEditMode) {
       this.appointmentService.updateAppointment(appointmentData);
     } else {
       this.appointmentService.addAppointment(appointmentData);
     }
-
+  
     this.formClosed.emit();
   }
 
@@ -107,8 +107,17 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     );
   }
 
+  // validateTime(): void {
+  //   this.formService.validateTime(this.appointmentForm); 
+  // }
   validateTime(): void {
-    this.formService.validateTime(this.appointmentForm); 
+    const startTime = this.appointmentForm.get('startTime')?.value;
+    const endTime = this.appointmentForm.get('endTime')?.value;
+  
+    if (startTime !== null && endTime !== null && endTime <= startTime) {
+      this.appointmentForm.get('endTime')?.setErrors({ endBeforeStart: true });
+    } else {
+      this.appointmentForm.get('endTime')?.setErrors(null);
+    }
   }
-
 }

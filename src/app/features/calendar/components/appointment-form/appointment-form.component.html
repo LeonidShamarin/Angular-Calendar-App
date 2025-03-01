@@ -34,7 +34,7 @@
         </mat-error>
       </mat-form-field>
       
-      <div class="time-container">
+      <!-- <div class="time-container">
         <mat-form-field appearance="outline" class="time-field">
           <mat-label>Start Time</mat-label>
           <input matInput type="time" formControlName="startTime" (change)="validateTime()">
@@ -59,7 +59,32 @@
             End time must be after start time
           </mat-error>
         </mat-form-field>
-      </div>
+      </div> -->
+      <div class="time-container">  <mat-form-field appearance="outline" class="time-field">
+        <mat-label>Start Time</mat-label>
+        <input matInput  formControlName="startTime" min="0" max="23" (change)="validateTime()">
+        <mat-error *ngIf="appointmentForm.get('startTime')?.hasError('required')">
+          Start time is required
+        </mat-error>
+        <mat-error *ngIf="appointmentForm.get('startTime')?.hasError('min') || appointmentForm.get('startTime')?.hasError('max')">
+          Hour must be between 0 and 23
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline" class="time-field">
+        <mat-label>End Time</mat-label>
+        <input matInput  formControlName="endTime" min="0" max="23" (change)="validateTime()">
+        <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('required')">
+          End time is required
+        </mat-error>
+        <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('min') || appointmentForm.get('endTime')?.hasError('max')">
+          Hour must be between 0 and 23
+        </mat-error>
+        <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('endBeforeStart')">
+          End time must be after start time
+        </mat-error>
+      </mat-form-field></div>
+     
       
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Color</mat-label>

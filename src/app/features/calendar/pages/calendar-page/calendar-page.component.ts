@@ -54,4 +54,12 @@ export class CalendarPageComponent {
     newDate.setMonth(newDate.getMonth() + increment);
     this.currentDate = newDate;
   }
+
+  onAppointmentSelected(appointment: Appointment): void {
+    this.selectedAppointment = appointment;
+  }
+  
+  onFormClosed(): void {
+    this.selectedAppointment = null;
+  }
 }

@@ -5,24 +5,24 @@
       {{ day.substring(0, 3) }}
     </div>
   </div>
-  
+
   <!-- Calendar days -->
   <div class="calendar-body">
-    <div 
-      *ngFor="let day of calendarDays; let i = index" 
+    <div
+      *ngFor="let day of calendarDays; let i = index"
       class="calendar-day"
       [class.other-month]="!day.isCurrentMonth"
       [class.today]="isToday(day.date)"
       cdkDropList
       [cdkDropListData]="day.appointments"
       (cdkDropListDropped)="onDrop($event, i)"
-      [cdkDropListConnectedTo]="getConnectedLists()">
-      
+      [cdkDropListConnectedTo]="getConnectedLists()"
+    >
       <div class="day-header">
-        {{ day.date | date: 'd' }}
+        {{ day.date | date : "d" }}
       </div>
-      
-      <div 
+
+      <!-- <div 
         *ngFor="let appointment of day.appointments"
         class="appointment"
         [style.background-color]="appointment.color || '#4285f4'"
@@ -39,6 +39,36 @@
           (click)="deleteAppointment(appointment, $event)">
           <mat-icon>close</mat-icon>
         </button>
+      </div> -->
+      <div
+        *ngFor="let appointment of day.appointments"
+        class="appointment"
+        [style.background-color]="appointment.color || '#4285f4'"
+        cdkDrag
+        (click)="onAppointmentClick(appointment, $event)"
+      >
+        <div class="appointment-card">
+          <div class="appointment-title">{{ appointment.title }}</div>
+          <div class="appointment-time">
+            {{ appointment.startTime }} - {{ appointment.endTime }}
+          </div>
+          <div class="buttons-edit-delete">
+            <button
+              class="button-edit"
+              mat-icon-button
+              (click)="editAppointment(appointment, $event)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              class="button-delete"
+              mat-icon-button
+              (click)="deleteAppointment(appointment, $event)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

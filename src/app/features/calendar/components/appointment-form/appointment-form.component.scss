@@ -40,15 +40,14 @@ mat-card-actions {
 }
 
 .appointment-card {
-  max-width: 600px; /* Задайте бажану максимальну ширину */
-  width: 100%; /* Забезпечує адаптивність */
-  margin: 0 auto; /* Центрує картку по горизонталі */
-  padding: 16px; /* Додайте відступи всередині картки */
+  max-width: 600px; 
+  width: 100%; 
+  margin: 0 auto; 
+  padding: 16px; 
 }
 
-/* Додаткові стилі для адаптивності */
 @media (max-width: 768px) {
   .appointment-card {
-    max-width: 90%; /* На малих екранах зменшуємо ширину */
+    max-width: 90%; 
   }
 }
