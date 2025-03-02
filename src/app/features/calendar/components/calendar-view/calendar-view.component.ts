@@ -91,7 +91,15 @@ export class CalendarViewComponent implements OnInit, OnChanges {
     // Load appointments
     this.loadAppointments();
   }
+previousMonth(): void {
+  this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+  this.generateCalendarDays();
+}
 
+nextMonth(): void {
+  this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
+  this.generateCalendarDays();
+}
   loadAppointments(): void {
     this.appointmentService.getAppointments().subscribe(appointments => {
       // Reset appointments for all days

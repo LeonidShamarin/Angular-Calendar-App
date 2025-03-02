@@ -13,7 +13,7 @@ import { Appointment } from '../../../../core/models/appointment.model';
 import { Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
 import { AppointmentService } from '../../../../core/services/appointment.service';
-import { FormService } from '../../../../core/services/form.service'; // Імпортуємо FormService
+import { FormService } from '../../../../core/services/form.service'; 
 
 @Component({
   selector: 'app-appointment-form',
@@ -107,9 +107,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     );
   }
 
-  // validateTime(): void {
-  //   this.formService.validateTime(this.appointmentForm); 
-  // }
+ 
   validateTime(): void {
     const startTime = this.appointmentForm.get('startTime')?.value;
     const endTime = this.appointmentForm.get('endTime')?.value;
