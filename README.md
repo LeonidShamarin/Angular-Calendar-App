@@ -47,6 +47,11 @@ The goal of this Project was to create a functional calendar application using A
 * RxJS
 * TypeScript
 
+## Live Demo
+
+You can view the live demo of the application [here](https://leonid-shamarin-calendar-app.vercel.app/calendar).
+
+
 ## Installation
 
 1.  Clone the repository:
