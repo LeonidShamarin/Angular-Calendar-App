@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AppointmentService } from '../../../../core/services/appointment.service';
@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropService } from './../../../../core/services/drag-drop.service';
+import { CalendarService } from '../../../../core/services/calendar.service';
+import { Subscription } from 'rxjs';
 
 interface CalendarDay {
   date: Date;
@@ -32,76 +34,72 @@ interface CalendarDay {
   templateUrl: './calendar-view.component.html',
   styleUrls: ['./calendar-view.component.scss']
 })
-// 
-export class CalendarViewComponent implements OnInit, OnChanges {
+export class CalendarViewComponent implements OnInit, OnChanges, OnDestroy {
   @Input() currentDate: Date = new Date();
   @Output() appointmentSelected = new EventEmitter<Appointment>();
   
   calendarDays: CalendarDay[] = [];
   weekDays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  private calendarSubscription: Subscription | null = null;
+  private appointmentSubscription: Subscription | null = null;
   
   constructor(
     private appointmentService: AppointmentService,
     private dialog: MatDialog,
-    private dragDropService: DragDropService
+    private dragDropService: DragDropService,
+    private calendarService: CalendarService
   ) {}
 
   ngOnInit(): void {
-    this.generateCalendarDays();
+    this.calendarService.setCurrentDate(this.currentDate);
+    this.subscribeToCalendar();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['currentDate']) {
-      this.generateCalendarDays();
+      this.calendarService.setCurrentDate(this.currentDate);
     }
   }
 
-  generateCalendarDays(): void {
-    const year = this.currentDate.getFullYear();
-    const month = this.currentDate.getMonth();
-    
-    // First day of the month
-    const firstDay = new Date(year, month, 1);
-    // Last day of the month
-    const lastDay = new Date(year, month + 1, 0);
-    
-    // Start from the first day of week containing the first day of month
-    const startDate = new Date(firstDay);
-    startDate.setDate(firstDay.getDate() - firstDay.getDay());
-    
-    // End on the last day of week containing the last day of month
-    const endDate = new Date(lastDay);
-    if (endDate.getDay() < 6) {
-      endDate.setDate(lastDay.getDate() + (6 - lastDay.getDay()));
+  ngOnDestroy(): void {
+    if (this.calendarSubscription) {
+      this.calendarSubscription.unsubscribe();
     }
-    
-    this.calendarDays = [];
-    
-    let currentDate = new Date(startDate);
-    
-    while (currentDate <= endDate) {
-      this.calendarDays.push({
-        date: new Date(currentDate),
-        isCurrentMonth: currentDate.getMonth() === month,
-        appointments: [] // Will be populated from subscription
-      });
-      currentDate.setDate(currentDate.getDate() + 1);
+    if (this.appointmentSubscription) {
+      this.appointmentSubscription.unsubscribe();
     }
-    
-    // Load appointments
-    this.loadAppointments();
   }
-previousMonth(): void {
-  this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
-  this.generateCalendarDays();
-}
 
-nextMonth(): void {
-  this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
-  this.generateCalendarDays();
-}
+  subscribeToCalendar(): void {
+    this.calendarSubscription = this.calendarService.getCalendarDays().subscribe(days => {
+      this.calendarDays = days.map(day => ({
+        ...day,
+        appointments: []
+      }));
+      this.loadAppointments();
+    });
+  }
+
+  previousMonth(): void {
+    const newDate = new Date(this.currentDate);
+    newDate.setMonth(newDate.getMonth() - 1);
+    this.currentDate = newDate;
+    this.calendarService.setCurrentDate(this.currentDate);
+  }
+
+  nextMonth(): void {
+    const newDate = new Date(this.currentDate);
+    newDate.setMonth(newDate.getMonth() + 1);
+    this.currentDate = newDate;
+    this.calendarService.setCurrentDate(this.currentDate);
+  }
+
   loadAppointments(): void {
-    this.appointmentService.getAppointments().subscribe(appointments => {
+    if (this.appointmentSubscription) {
+      this.appointmentSubscription.unsubscribe();
+    }
+    
+    this.appointmentSubscription = this.appointmentService.getAppointments().subscribe(appointments => {
       // Reset appointments for all days
       this.calendarDays.forEach(day => day.appointments = []);
       
@@ -124,10 +122,12 @@ nextMonth(): void {
     event.stopPropagation();
     this.appointmentSelected.emit(appointment);
   }
+
   editAppointment(appointment: Appointment, event: MouseEvent): void {
     event.stopPropagation();
     this.appointmentSelected.emit(appointment);
   }
+
   deleteAppointment(appointment: Appointment, event: MouseEvent): void {
     event.stopPropagation();
     
@@ -149,7 +149,7 @@ nextMonth(): void {
   onDrop(event: CdkDragDrop<any[]>, dayIndex: number) {
     this.dragDropService.drop(event);
 
-    // Оновіть дату призначення, якщо воно переміщено на інший день
+    // Update appointment date if moved to a different day
     if (event.previousContainer !== event.container) {
       const appointment = event.container.data[event.currentIndex];
       appointment.date = this.calendarDays[dayIndex].date;
